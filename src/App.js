@@ -1,27 +1,23 @@
-import logo from "./logo.svg";
+import AppBar from "@material-ui/core/AppBar";
+import Badge from "@material-ui/core/Badge";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import MoreIcon from "@material-ui/icons/MoreVert";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import BillingPage from "./component/Main/Billing_page";
 import LandingPage from "./component/Main/Landing_Page";
 import OrderPage from "./component/Main/Order_Page";
 import PageNotFound from "./component/Main/Page_Not_Found";
-
-import React from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
-import BillingPage from "./component/Main/Billing_page";
+import SpecificIteam from "./component/Main/SpecificIteam";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -92,6 +88,9 @@ export default function App() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  if (localStorage.getItem("OrderedList") == null) {
+    localStorage.setItem("OrderedList", null);
+  }
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -176,7 +175,7 @@ export default function App() {
         <AppBar position="static">
           <Toolbar>
             <Typography className={classes.title} variant="h6" noWrap>
-              Material-UI
+              Mikes Pizza and Sub
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
@@ -232,12 +231,13 @@ export default function App() {
           <Route
             exact
             path="/Billing/:menuID"
-            render={(props) => (
-              <BillingPage
-                {...props}
-                sudeep="i am passing this data from compenent"
-              />
-            )}
+            render={(props) => <BillingPage {...props} />}
+          />
+
+          <Route
+            exact
+            path="/specificIteam/:IteamName"
+            render={(props) => <SpecificIteam {...props} />}
           />
 
           <Route
@@ -253,8 +253,4 @@ export default function App() {
       </Router>
     </>
   );
-}
-
-{
-  /*  */
 }

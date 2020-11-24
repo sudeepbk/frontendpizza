@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
-export default function Billing_page({ match, sudeep }) {
+export default function Billing_page({ match }) {
   // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-
-  console.log(sudeep);
 
   return (
     <div>
-      <p>{sudeep}</p>
+      <p>{match}</p>
     </div>
   );
 }

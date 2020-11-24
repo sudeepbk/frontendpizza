@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Menu_Card({ Menu }) {
+export default function OrderedIteam({ Menu }) {
   const classes = useStyles();
 
   return (
