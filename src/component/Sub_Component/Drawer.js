@@ -1,7 +1,21 @@
-import { Button, Chip, Divider, Grid, Typography } from "@material-ui/core";
-import React, { useState } from "react";
-import OrderForm from "../Sub_Component/Order_Form";
+import { Chip, CircularProgress, Grid, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { remove } from "../action/localstorageAction";
+
+const useStyles = makeStyles({
+  list: {
+    width: 250,
+  },
+  fullList: {
+    width: "auto",
+  },
+});
 
 const IteamOrdered = ({ ...props }) => {
   var oldOrderList = JSON.parse(localStorage.getItem("OrderedList"));
@@ -147,19 +161,58 @@ const IteamOrdered = ({ ...props }) => {
   }
 };
 
-export default function Order_Page() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
+export default function RightDrawer({ ...props }) {
+  console.log(props);
+  const classes = useStyles();
+  const history = useHistory();
+  const [load, setload] = useState(false);
+  const [localStorageValue, setlocalStorage] = useState();
+
+  useEffect(() => {
+    setlocalStorage(JSON.stringify(localStorage.getItem("OrderedList")));
+  });
+
+  const routeChange = () => {
+    props.handleDrawerClose();
+    window.location.href = "/order";
+  };
+
+  if (load) {
+    return (
+      <Grid>
+        <CircularProgress />
+      </Grid>
+    );
+  }
 
   return (
-    <Grid container>
-      <Grid item xs={6}>
-        <OrderForm />
-      </Grid>
-      <Grid item xs={6} style={{ maxHeight: "50vh", overflow: "auto" }}>
-        <Typography variant="h5">Ordered Iteam</Typography>
-        <IteamOrdered />
-      </Grid>
-    </Grid>
+    <div>
+      <React.Fragment>
+        <Drawer
+          anchor={"right"}
+          open={props.Drawer}
+          onClose={props.handleDrawerClose}
+        >
+          <div className={clsx(classes.list)} style={{ textAlign: "center" }}>
+            {localStorageValue == "null" || localStorageValue === undefined ? (
+              <Grid item fullWidth justify="center">
+                <Typography variant="h6">There is no content</Typography>
+              </Grid>
+            ) : (
+              <Grid>
+                <Grid item fullWidth justify="center">
+                  <Typography variant="h6">Iteam ordered</Typography>
+                  <IteamOrdered />
+                </Grid>
+                <Divider />
+                <Button fullWidth onClick={routeChange}>
+                  Checkout
+                </Button>
+              </Grid>
+            )}
+          </div>
+        </Drawer>
+      </React.Fragment>
+    </div>
   );
 }

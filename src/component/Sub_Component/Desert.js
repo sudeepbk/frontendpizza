@@ -8,18 +8,31 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { add, remove } from "../action/localstorageAction";
 
 export default function Wings() {
-  const [spicy, setSpicy] = React.useState("");
+  const [desert, setDesert] = React.useState("");
   const [qty, setQty] = React.useState("");
 
-  const handleChangeSpicy = (event) => {
-    setSpicy(event.target.value);
+  const handleChangeDesert = (event) => {
+    setDesert(event.target.value);
   };
 
   const handleChangeQty = (event) => {
     setQty(event.target.value);
   };
+
+  function handleSubmitClick() {
+    var newIteam = {
+      TypeFood: "Dessert",
+      dessert: desert,
+      qty: qty,
+    };
+
+    add(newIteam);
+    window.location.reload();
+  }
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -36,14 +49,14 @@ export default function Wings() {
               Desert
             </InputLabel>
             <Select
-              value={spicy}
-              onChange={handleChangeSpicy}
+              value={desert}
+              onChange={handleChangeDesert}
               displayEmpty
               label="Spicy"
               inputProps={{ "aria-label": "Without label" }}
             >
-              <MenuItem value={"chocolateCake"}>Chocolate Cake</MenuItem>
-              <MenuItem value={"chesseCake"}>Chesse Cake</MenuItem>
+              <MenuItem value={"Chocolate Cake"}>Chocolate Cake</MenuItem>
+              <MenuItem value={"Chesse Cake"}>Chesse Cake</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -70,7 +83,10 @@ export default function Wings() {
           </FormControl>
         </Grid>
 
-        <Button variant={"outlined"}> Add To List</Button>
+        <Button variant={"outlined"} onClick={handleSubmitClick}>
+          {" "}
+          Add To List
+        </Button>
       </Grid>
     </Grid>
   );

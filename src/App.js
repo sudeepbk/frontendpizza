@@ -1,16 +1,18 @@
+import { Button, Grid, Snackbar } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import CloseIcon from "@material-ui/icons/Close";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import BillingPage from "./component/Main/Billing_page";
@@ -18,6 +20,7 @@ import LandingPage from "./component/Main/Landing_Page";
 import OrderPage from "./component/Main/Order_Page";
 import PageNotFound from "./component/Main/Page_Not_Found";
 import SpecificIteam from "./component/Main/SpecificIteam";
+import RightDrawer from "./component/Sub_Component/Drawer";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -87,12 +90,21 @@ export default function App() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   if (localStorage.getItem("OrderedList") == null) {
     localStorage.setItem("OrderedList", null);
   }
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  function handleDrawerOpen() {
+    setOpenDrawer(true);
+  }
+
+  function handleDrawerClose() {
+    setOpenDrawer(false);
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -110,6 +122,18 @@ export default function App() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  function countIteamOrdered() {
+    var count = 0;
+
+    if (JSON.parse(localStorage.getItem("OrderedList")) !== null) {
+      var a = JSON.parse(localStorage.getItem("OrderedList"));
+      console.log(typeof a.length);
+      count = a.length;
+    }
+
+    return count;
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -148,7 +172,13 @@ export default function App() {
 
       {/* Notification */}
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
+        <IconButton
+          aria-label="show 11 new notifications"
+          color="inherit"
+          onClick={() => {
+            setOpenDrawer(false);
+          }}
+        >
           <NotificationsIcon />
         </IconButton>
         <p>Notifications</p>
@@ -172,6 +202,11 @@ export default function App() {
   return (
     <>
       <div className={classes.grow}>
+        <RightDrawer
+          handleDrawerOpen={handleDrawerOpen}
+          handleDrawerClose={handleDrawerClose}
+          Drawer={openDrawer}
+        />
         <AppBar position="static">
           <Toolbar>
             <Typography className={classes.title} variant="h6" noWrap>
@@ -179,28 +214,20 @@ export default function App() {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
+              <Button href="/">Menu</Button>
+              <Button>About us</Button>
+
               <IconButton
                 aria-label="show 17 new notifications"
                 color="inherit"
+                disabled={false}
+                onClick={() => {
+                  setOpenDrawer(true);
+                }}
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={countIteamOrdered()} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
               </IconButton>
             </div>
             <div className={classes.sectionMobile}>
@@ -251,6 +278,17 @@ export default function App() {
           </Route>
         </Switch>
       </Router>
+
+      <Grid
+        contianer
+        style={{ textAlign: "center", padding: "50px", background: "gray" }}
+      >
+        <Grid item>
+          <Typography variant="h4">Contact Us</Typography>
+          <Typography variant="h6">Phone: (410) 967-4095</Typography>
+          <Typography variant="h6">Email: ayonghang@gmail.com</Typography>
+        </Grid>
+      </Grid>
     </>
   );
 }

@@ -13,7 +13,9 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
+import { Formik } from "formik";
 import React from "react";
+import { add, remove } from "../action/localstorageAction";
 
 const names = [
   "Pepperoni",
@@ -85,7 +87,6 @@ export default function Pizza({ foodType }) {
   };
 
   function handleSubmitClick() {
-    var newOrderList = [];
     var newIteam = {
       TypeFood: foodType,
       toppings: personName,
@@ -93,15 +94,8 @@ export default function Pizza({ foodType }) {
       qty: qty,
     };
 
-    if (localStorage.getItem("OrderedList") === "null") {
-      newOrderList.push(newIteam);
-      localStorage.setItem("OrderedList", JSON.stringify(newOrderList));
-    } else {
-      var oldOrderList = JSON.parse(localStorage.getItem("OrderedList"));
-
-      oldOrderList.push(newIteam);
-      localStorage.setItem("OrderedList", JSON.stringify(oldOrderList));
-    }
+    add(newIteam);
+    window.location.reload();
   }
 
   return (

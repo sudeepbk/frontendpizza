@@ -62,16 +62,7 @@ export default function Landing_Page() {
         "Breaded with Texas fried chicken breading",
       ],
     },
-    {
-      id: 3,
-      name: "Pasta",
-      subHeader: "Ziti, Lasanga, and Raviol",
-      image:
-        "https://assets.bonappetit.com/photos/5aa9665c275dc52331d9184b/16:9/w_1200,c_limit/pantry-pasta.jpg",
-      description: "Eat Pasta, stay heavy, they can't abduct you",
-      price: 14.99,
-      ingrediant: ["All-purpose flour", "Eggs", "Olive Oil", "Salt"],
-    },
+
     {
       id: 4,
       name: "Drinks",
@@ -81,20 +72,7 @@ export default function Landing_Page() {
       description: "Drinks like a soda, Kicks like an energy Drink",
       price: 2.75,
     },
-    {
-      id: 5,
-      name: "Wraps",
-      subHeader: "Do What Taste Right",
-      image:
-        "https://www.madgreens.com/sites/default/files/styles/adaptive/public/harvest-square.jpg?itok=-esbiMy6",
-      description:
-        "Choose whole wheat, tomato or flour tortilla. Wraps grilled uppon request.Served with chips or side.",
-      price: 8.99,
-      ingrediant: [
-        "Choice or wrap, Mixed Veggies,Broccoli, Red Pepper, Zucchini, Cabbage, Organic, Carrot",
-        "potato",
-      ],
-    },
+
     {
       id: 6,
       name: "Dessert",

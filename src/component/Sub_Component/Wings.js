@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { add, remove } from "../action/localstorageAction";
 
 export default function Wings() {
   const [spicy, setSpicy] = React.useState("");
@@ -20,6 +21,18 @@ export default function Wings() {
   const handleChangeQty = (event) => {
     setQty(event.target.value);
   };
+
+  function handleSubmitClick() {
+    var newIteam = {
+      TypeFood: "Wings",
+      Spicy: spicy,
+      qty: qty,
+    };
+
+    add(newIteam);
+    window.location.reload();
+  }
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -43,7 +56,7 @@ export default function Wings() {
               inputProps={{ "aria-label": "Without label" }}
             >
               <MenuItem value={"Mild"}>Mild</MenuItem>
-              <MenuItem value={"Hot"}>Hold</MenuItem>
+              <MenuItem value={"Hot"}>Hot</MenuItem>
               <MenuItem value={"Barbecue"}>Barbecue</MenuItem>
             </Select>
           </FormControl>
@@ -71,7 +84,10 @@ export default function Wings() {
           </FormControl>
         </Grid>
 
-        <Button variant={"outlined"}> Add To List</Button>
+        <Button variant={"outlined"} onClick={handleSubmitClick}>
+          {" "}
+          Add To List
+        </Button>
       </Grid>
     </Grid>
   );

@@ -39,9 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Menu_Card({ Menu }) {
   const classes = useStyles();
 
-  function handleDelete() {
-    alert("Delete");
-  }
+  function handleDelete() {}
 
   return (
     <a href={`/specificIteam/${Menu.name}`} style={{ textDecoration: "none" }}>

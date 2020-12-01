@@ -2,7 +2,7 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import Pizza from "../Sub_Component/Pizza";
 import Wings from "../Sub_Component/Wings";
-import Drinks from "../Sub_Component/Wings";
+import Drinks from "../Sub_Component/Drinks";
 import Chocolate from "../Sub_Component/Desert";
 
 export default function getAlliteam({ match }) {

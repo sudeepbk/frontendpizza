@@ -14,6 +14,7 @@ import * as yup from "yup";
 import MuiPhoneNumber from "material-ui-phone-number";
 
 import OrderFormSchema from "../Sub_Component/Order_Form_Validation";
+import Axios from "axios";
 export default function Order_Page() {
   // Declare a new state variable, which we'll call "count"
   const [count, setCount] = useState(0);
@@ -25,7 +26,6 @@ export default function Order_Page() {
     firstName: yup.string().required("This is required field"),
     lastName: yup.string().required("This is required field"),
     address: yup.string().required("This is required field"),
-    secAddress: yup.string().required("This is required field"),
     city: yup.string().required("This is required field"),
     state: yup
       .string()
@@ -56,189 +56,191 @@ export default function Order_Page() {
 
   function handleFormSubmit(value) {
     console.log(value);
+    Axios.post("http://localhost:8080/order", { body: value }).then((res) => {
+      console.log(res);
+    });
   }
   return (
     <Grid container style={{ marginTop: "20px" }} alignContent="center">
-      <Grid item xs={10}>
-        <Formik
-          onSubmit={handleFormSubmit}
-          initialValues={defaultValues}
-          validationSchema={orderSchema}
-        >
-          {({ errors, handleChange, touched, values, submitForm }) => {
-            console.log(values, errors);
-            return (
-              <Grid container>
-                <Grid item xs={6}>
-                  <Form>
-                    <Grid container xs={12} sm={12}>
-                      {/*First Name */}
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          error={errors.firstName}
-                          name="firstName"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="firstName"
-                          label="First Name"
-                          autoFocus
-                          helperText={
-                            errors.firstName ? errors.firstName : null
-                          }
-                        />
-                      </Grid>
-
-                      {/*Last Name */}
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          error={errors.lastName}
-                          name="lastName"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="lastName"
-                          label="Last Name"
-                          autoFocus
-                          helperText={errors.lastName ? errors.lastName : null}
-                        />
-                      </Grid>
+      <Formik
+        onSubmit={handleFormSubmit}
+        initialValues={defaultValues}
+        validationSchema={orderSchema}
+      >
+        {({ errors, handleChange, touched, values, submitForm }) => {
+          console.log(values, errors);
+          return (
+            <Grid container>
+              <Grid item xs={12}>
+                <Form>
+                  <Grid
+                    container
+                    xs={12}
+                    sm={12}
+                    spacing={3}
+                    style={{ marginBottom: "20px" }}
+                  >
+                    {/*First Name */}
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        error={errors.firstName}
+                        name="firstName"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="firstName"
+                        label="First Name"
+                        autoFocus
+                        helperText={errors.firstName ? errors.firstName : null}
+                      />
                     </Grid>
 
-                    <Grid container xs={12} sm={12}>
-                      {/*Address 1*/}
-                      <Grid item xs={12} sm={12}>
-                        <TextField
-                          error={errors.address}
-                          name="address"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="address"
-                          label="Address 1"
-                          autoFocus
-                          helperText={errors.address ? errors.address : null}
-                        />
-                      </Grid>
+                    {/*Last Name */}
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        error={errors.lastName}
+                        name="lastName"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="lastName"
+                        label="Last Name"
+                        autoFocus
+                        helperText={errors.lastName ? errors.lastName : null}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container xs={12} sm={12}>
+                    {/*Address 1*/}
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        error={errors.address}
+                        name="address"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="address"
+                        label="Address 1"
+                        autoFocus
+                        helperText={errors.address ? errors.address : null}
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container xs={12} sm={12}>
+                    {/*Address 2*/}
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        error={errors.secAddress}
+                        name="secAddress"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="secAddress"
+                        label="Address 2"
+                        autoFocus
+                        helperText={
+                          errors.secAddress ? errors.secAddress : null
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+
+                  <Grid container xs={12} sm={12}>
+                    {/*City*/}
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        error={errors.city}
+                        name="city"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="firstName"
+                        label="city"
+                        autoFocus
+                        helperText={errors.city ? errors.city : null}
+                      />
                     </Grid>
 
-                    <Grid container xs={12} sm={12}>
-                      {/*Address 2*/}
-                      <Grid item xs={12} sm={12}>
-                        <TextField
-                          error={errors.secAddress}
-                          name="secAddress"
-                          variant="outlined"
+                    {/*Last Name */}
+                    <Grid item xs={12} sm={6}>
+                      <FormControl variant="outlined">
+                        <InputLabel id="demo-simple-select-filled-label">
+                          State
+                        </InputLabel>
+                        <Select
+                          error={errors.state}
+                          name="state"
                           fullWidth
                           onChange={handleChange}
-                          id="secAddress"
-                          label="Address 2"
+                          id="state"
+                          label="State"
                           autoFocus
-                          helperText={
-                            errors.secAddress ? errors.secAddress : null
-                          }
-                        />
-                      </Grid>
+                          helperText={errors.state ? errors.state : null}
+                        >
+                          <MenuItem value={"MD"}>MD</MenuItem>
+                          <MenuItem value={"PA"}>PA</MenuItem>
+                        </Select>
+                      </FormControl>
                     </Grid>
+                  </Grid>
 
-                    <Grid container xs={12} sm={12}>
-                      {/*City*/}
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          error={errors.city}
-                          name="city"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="firstName"
-                          label="city"
-                          autoFocus
-                          helperText={errors.city ? errors.city : null}
-                        />
-                      </Grid>
-
-                      {/*Last Name */}
-                      <Grid item xs={12} sm={6}>
-                        <FormControl variant="outlined">
-                          <InputLabel id="demo-simple-select-filled-label">
-                            State
-                          </InputLabel>
-                          <Select
-                            error={errors.state}
-                            name="state"
-                            fullWidth
-                            onChange={handleChange}
-                            id="state"
-                            label="State"
-                            autoFocus
-                            helperText={errors.state ? errors.state : null}
-                          >
-                            <MenuItem value={"MD"}>MD</MenuItem>
-                            <MenuItem value={"PA"}>PA</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Grid>
+                  <Grid container xs={12} sm={12}>
+                    {/*First Name */}
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        error={errors.zipCode && touched.zipCode}
+                        name="zipCode"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="zipCode"
+                        label="Zip Code"
+                        autoFocus
+                        helperText={
+                          errors.zipCode && touched.zipCode
+                            ? errors.zipCode
+                            : null
+                        }
+                      />
                     </Grid>
+                  </Grid>
 
-                    <Grid container xs={12} sm={12}>
-                      {/*First Name */}
-                      <Grid item xs={12} sm={12}>
-                        <TextField
-                          error={errors.zipCode && touched.zipCode}
-                          name="zipCode"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="zipCode"
-                          label="Zip Code"
-                          autoFocus
-                          helperText={
-                            errors.zipCode && touched.zipCode
-                              ? errors.zipCode
-                              : null
-                          }
-                        />
-                      </Grid>
+                  <Grid container xs={12} sm={12}>
+                    {/*First Name */}
+                    <Grid item xs={12} sm={12}>
+                      <TextField
+                        error={errors.firstName && touched.firstName}
+                        name="phoneNumber"
+                        variant="outlined"
+                        fullWidth
+                        onChange={handleChange}
+                        id="phoneNumber"
+                        label="Phone Number"
+                        autoFocus
+                        helperText={
+                          errors.phoneNumber ? errors.phoneNumber : null
+                        }
+                      />
                     </Grid>
-
-                    <Grid container xs={12} sm={12}>
-                      {/*First Name */}
-                      <Grid item xs={12} sm={12}>
-                        <TextField
-                          error={errors.firstName && touched.firstName}
-                          name="phoneNumber"
-                          variant="outlined"
-                          fullWidth
-                          onChange={handleChange}
-                          id="phoneNumber"
-                          label="Phone Number"
-                          autoFocus
-                          helperText={
-                            errors.phoneNumber ? errors.phoneNumber : null
-                          }
-                        />
-                      </Grid>
-                    </Grid>
-                    <Button
-                      variant={"outlined"}
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                    >
-                      Submit
-                    </Button>
-                  </Form>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Typography variant="h5">Ordered List</Typography>
-                </Grid>
+                  </Grid>
+                  <Button
+                    variant={"outlined"}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    style={{ marginTop: "20px" }}
+                  >
+                    Submit
+                  </Button>
+                </Form>
               </Grid>
-            );
-          }}
-        </Formik>
-      </Grid>
+            </Grid>
+          );
+        }}
+      </Formik>
     </Grid>
   );
 }
